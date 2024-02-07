@@ -166,3 +166,125 @@ x_tr_features  = x_tr.reshape(len(x_tr),-1,1)
 x_val_features = x_val.reshape(len(x_val),-1,1)
 
 print("Reshaped Array Size",x_tr_features.shape)
+
+'''
+## Model Architecture
+
+Let's define the model architecture using conv1D layers  and the time domain features.
+
+'''
+
+from keras.layers import Input, Conv1D, Dropout, MaxPooling1D, GlobalMaxPool1D, Dense
+from keras.models import Model
+from keras.callbacks import ModelCheckpoint
+
+# CNN based deep learning model architecture
+def conv_model(x_tr):
+  
+  inputs = Input(shape=(x_tr.shape[1],x_tr.shape[2]))
+
+  #First Conv1D layer
+  conv = Conv1D(8, 13, padding='same', activation='relu')(inputs)
+  conv = Dropout(0.3)(conv)
+  conv = MaxPooling1D(2)(conv)
+
+  #Second Conv1D layer
+  conv = Conv1D(16, 11, padding='same', activation='relu')(conv)
+  conv = Dropout(0.3)(conv)
+  conv = MaxPooling1D(2)(conv)
+
+  # Global MaxPooling 1D
+  conv = GlobalMaxPool1D()(conv)
+
+  #Dense Layer 
+  conv = Dense(16, activation='relu')(conv)
+  outputs = Dense(1,activation='sigmoid')(conv)
+
+  model = Model(inputs, outputs)
+  
+  model.compile(loss='binary_crossentropy',optimizer='adam',metrics=['acc'])
+  model_checkpoint = ModelCheckpoint('best_model.hdf5', monitor='val_loss', verbose=1, save_best_only=True, mode='min')
+  
+  return model, model_checkpoint
+
+model, model_checkpoint = conv_model(x_tr_features)
+
+model.summary()
+
+# model training
+history = model.fit(x_tr_features, y_tr ,epochs=10, 
+                    callbacks=[model_checkpoint], batch_size=32, 
+                    validation_data=(x_val_features,y_val))
+
+# load the best model weights
+model.load_weights('best_model.hdf5')
+
+# summarize history for loss
+plt.plot(history.history['loss'])
+plt.plot(history.history['val_loss'])
+plt.title('model loss')
+plt.ylabel('loss')
+plt.xlabel('epoch')
+plt.legend(['train', 'validation'], loc='upper left')
+plt.show()
+
+# check model's performance on the validation set
+_, acc = model.evaluate(x_val_features,y_val)
+print("Validation Accuracy:",acc)
+
+# input audio
+
+ind=35
+test_audio = x_val[ind]
+ipd.Audio(test_audio,rate=16000)
+
+# classification
+feature = x_val_features[ind]
+prob = model.predict(feature.reshape(1,-1,1))
+if (prob[0][0] < 0.5):
+  pred='emergency'
+else:
+  pred='non emergency' 
+
+print("Prediction:",pred)
+
+# reshape chunks
+x_tr_features  = x_tr.reshape(len(x_tr),-1,160)
+x_val_features = x_val.reshape(len(x_val),-1,160)
+
+print("Reshaped Array Size",x_tr_features.shape)
+
+from keras.layers import LSTM
+
+# LSTM based deep learning model architecture
+def lstm_model(x_tr):
+  
+  inputs = Input(shape=(x_tr.shape[1],x_tr.shape[2]))
+
+  #lstm
+  x = LSTM(128)(inputs)
+  x = Dropout(0.3)(x)
+  
+  #dense
+  x= Dense(64,activation='relu')(x)
+  x= Dense(1,activation='sigmoid')(x)
+  
+  model = Model(inputs, x)
+
+  model.compile(loss='binary_crossentropy',optimizer='adam',metrics=['acc'])
+  
+  return model
+
+model = lstm_model(x_tr_features)
+model.summary()
+
+mc = ModelCheckpoint('best_model.hdf5', monitor='val_loss', verbose=1, save_best_only=True, mode='min')
+
+history=model.fit(x_tr_features, y_tr, epochs=10, 
+                  callbacks=[mc], batch_size=32, 
+                  validation_data=(x_val_features,y_val))
+
+
+# load best model weights
+model.load_weights('best_model.hdf5')
+
