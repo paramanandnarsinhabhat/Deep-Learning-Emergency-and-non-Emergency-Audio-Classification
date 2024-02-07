@@ -74,12 +74,12 @@ with zipfile.ZipFile(zip_file_path, 'r') as zip_ref:
         print(file_name)
 
 # import emergency vehicle data
-path='audio/emergency.wav'
+path='data/audio/emergency.wav'
 emergency,sample_rate = librosa.load(path, sr = 16000)
 
 
 # import non-emergency vehicle data
-path='audio/non emergency.wav'
+path='data/audio/nonemergency.wav'
 non_emergency,sample_rate = librosa.load(path, sr =16000)
 
 '''
@@ -87,34 +87,18 @@ We have used the sampling rate (sr) of 16000 to read the above audio data. An au
 '''
 
 #__Find the duration of the audio clips__
-duration1 = librosa.get_duration(emergency,sr=16000)
-duration2 = librosa.get_duration(non_emergency,sr=16000)
+duration1 = librosa.get_duration(y=emergency, sr=16000)
+
+
+
+duration2 = librosa.get_duration(y=non_emergency, sr=16000)
+
 
 print("Duration of an emergency and Non Emergency (in min):",duration1/60,duration2/60)
 
+'''
 ## Preparing Data
 
-#Let us break the audio into chunks of 2 seconds. 
-#So, let us define the function for the same task
+Let us break the audio into chunks of 2 seconds. So, let us define the function for the same task
 
-
-def prepare_data(audio_data, num_of_samples=32000, sr=16000):
-  
-  data=[]
-  for offset in range(0, len(audio_data), sr):
-    start = offset
-    end   = offset + num_of_samples
-    chunk = audio_data[start:end]
-    
-    if(len(chunk)==32000):
-      data.append(chunk)
-    
-  return data
-
-#Call the above function
-# prepare audio chunks
-emergency = prepare_data(emergency)
-non_emergency = prepare_data(non_emergency)
-
-print("No. of Chunks of Emergency and Non Emergency:",len(emergency),len(non_emergency))
-
+'''
