@@ -120,3 +120,20 @@ emergency = prepare_data(emergency)
 non_emergency = prepare_data(non_emergency)
 
 print("No. of Chunks of Emergency and Non Emergency:",len(emergency),len(non_emergency))
+
+ipd.Audio(emergency[136],rate=16000)
+
+ipd.Audio(non_emergency[10],rate=16000)
+
+## Visualization of Audio Data
+plt.figure(figsize=(14,4))
+plt.plot(np.linspace(0, 2, num=32000),emergency[103])
+plt.title('Emergency')
+plt.xlabel('Time')
+plt.ylabel('Amplitude')
+
+plt.figure(figsize=(14,4))
+plt.plot(np.linspace(0, 2, num=32000),non_emergency[102])
+plt.title('Non Emergency')
+plt.xlabel('Time')
+plt.ylabel('Amplitude')
