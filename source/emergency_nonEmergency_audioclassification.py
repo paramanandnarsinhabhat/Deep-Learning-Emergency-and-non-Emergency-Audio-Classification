@@ -162,3 +162,7 @@ x_tr, x_val, y_tr, y_val = train_test_split(np.array(audio),np.array(labels),
 
 print(x_tr.shape, x_val.shape)
 
+x_tr_features  = x_tr.reshape(len(x_tr),-1,1)
+x_val_features = x_val.reshape(len(x_val),-1,1)
+
+print("Reshaped Array Size",x_tr_features.shape)
