@@ -288,3 +288,52 @@ history=model.fit(x_tr_features, y_tr, epochs=10,
 # load best model weights
 model.load_weights('best_model.hdf5')
 
+# summarize history for loss
+plt.plot(history.history['loss'])
+plt.plot(history.history['val_loss'])
+plt.title('model loss')
+plt.ylabel('loss')
+plt.xlabel('epoch')
+plt.legend(['train', 'validation'], loc='upper left')
+plt.show()
+
+
+_,acc = model.evaluate(x_val_features,y_val)
+print("Accuracy:",acc)
+
+'''
+## Spectrogram Features
+
+Let us define a function that computes the spectrogram. Before that, we need to understand how the spectrogram is computed.
+
+Spectrogram accepts the raw audio wave and then breaks it into chunks or windows and then applies FFT on each window to compute the frequencies.
+
+Coming to the parameters for computing spectrogram: 
+
+* nperseg = Size of the window i.e. number of samples in each chunk
+* noverlap= Number of overlapping samples between each window
+
+
+'''
+
+def log_specgram(audio, sample_rate, eps=1e-10):
+    nperseg  = 320
+    noverlap = 160
+
+    freqs, times, spec = scipy.signal.spectrogram(audio,fs=sample_rate, nperseg=nperseg,noverlap=noverlap)
+    return freqs, times, np.log(spec.T.astype(np.float32) + eps)
+
+def plot(spectrogram,label):
+  fig = plt.figure(figsize=(14, 8))
+  ax = fig.add_subplot(211)
+  ax.imshow(spectrogram.T, aspect='auto', extent=[times.min(), times.max(), freqs.min(), freqs.max()])
+  ax.set_title('Spectrogram of '+label)
+  ax.set_ylabel('Freqs in Hz')
+  ax.set_xlabel('Seconds')
+
+  freqs, times, spectrogram = log_specgram(emergency[300], sample_rate)
+plot(spectrogram,"emergency")
+
+freqs, times, spectrogram = log_specgram(non_emergency[300], sample_rate)
+plot(spectrogram,"non emergency")
+
