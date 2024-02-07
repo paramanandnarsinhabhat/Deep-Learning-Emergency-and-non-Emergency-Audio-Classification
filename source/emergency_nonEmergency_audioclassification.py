@@ -154,4 +154,11 @@ labels = np.concatenate([labels1,labels2])
 
 print(audio.shape)
 
+#**Split into train and validation set**
+from sklearn.model_selection import train_test_split
+x_tr, x_val, y_tr, y_val = train_test_split(np.array(audio),np.array(labels),
+                                            stratify=labels,test_size = 0.1,
+                                            random_state=777,shuffle=True)
+
+print(x_tr.shape, x_val.shape)
 
