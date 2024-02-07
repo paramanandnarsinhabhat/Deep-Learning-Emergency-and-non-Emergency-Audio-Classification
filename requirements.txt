@@ -1,0 +1,24 @@
+# Audio processing
+librosa==0.8.1  # Used for audio and music analysis
+
+# Scientific and technical computing
+scipy==1.7.1  # Contains modules for signal processing, among other things
+
+# Data manipulation
+pandas==1.3.3  # Used for data manipulation and analysis
+
+# Playing audio
+ipython==7.27.0  # Provides tools for interactive computing, including playing audio
+
+# Array processing
+numpy==1.21.2  # Fundamental package for array computing with Python
+
+# Visualization
+matplotlib==3.4.3  # Plotting library
+
+# Machine learning
+tensorflow==2.6.0  # Open-source machine learning library (Keras is included within)
+scikit-learn==0.24.2  # Simple and efficient tools for predictive data analysis
+
+# Others
+# You might need to include any other libraries that your specific environment requires.
