@@ -102,3 +102,16 @@ print("Duration of an emergency and Non Emergency (in min):",duration1/60,durati
 Let us break the audio into chunks of 2 seconds. So, let us define the function for the same task
 
 '''
+def prepare_data(audio_data, num_of_samples=32000, sr=16000):
+  
+  data=[]
+  for offset in range(0, len(audio_data), sr):
+    start = offset
+    end   = offset + num_of_samples
+    chunk = audio_data[start:end]
+    
+    if(len(chunk)==32000):
+      data.append(chunk)
+    
+  return data
+
