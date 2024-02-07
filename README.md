@@ -2,7 +2,7 @@
 # Emergency and Non-Emergency Audio Classification
 
 ## Overview
-This project aims to work with audio data to build a deep learning model that can differentiate between emergency and non-emergency vehicle sounds. The motivation behind this project is to create a system that could potentially save lives by detecting emergency vehicles and managing traffic systems accordingly to minimize delays in medical assistance.
+This project aims to work with audio data to build a deep learning model that can differentiate between emergency and non-emergency vehicle sounds. The motivation behind this project is to create a system that could potentially save lives by detecting emergency vehicles and managing traffic systems accordingly to minimize delays in medical assista     nce.
 
 ## Problem Statement
 Every day, delays in emergency services contribute to the loss of life. Traffic congestion can prevent ambulances and fire brigades from reaching those in urgent need of help. This project attempts to mitigate such issues by providing a means to automatically detect emergency vehicles and alter traffic signals to allow for quicker response times.
