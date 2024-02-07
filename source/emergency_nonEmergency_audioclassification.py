@@ -337,3 +337,29 @@ plot(spectrogram,"emergency")
 freqs, times, spectrogram = log_specgram(non_emergency[300], sample_rate)
 plot(spectrogram,"non emergency")
 
+print(spectrogram.shape)
+
+def extract_spectrogram_features(x_tr):
+  features=[]
+  for i in x_tr:
+    _, _, spectrogram = log_specgram(i, sample_rate)
+    
+    mean = np.mean(spectrogram, axis=0)
+    std = np.std(spectrogram, axis=0)
+    spectrogram = (spectrogram - mean) / std
+    
+    features.append(spectrogram)
+
+  return np.array(features)
+
+x_tr_features  = extract_spectrogram_features(x_tr)
+x_val_features = extract_spectrogram_features(x_val)
+
+model_2 = lstm_model(x_tr_features)
+
+mc = ModelCheckpoint('best_model.hdf5', monitor='val_loss', verbose=1, save_best_only=True, mode='min')
+
+model_2.summary()
+
+
+#Train the model
