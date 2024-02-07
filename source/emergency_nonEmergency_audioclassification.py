@@ -33,4 +33,43 @@ Let us first import the libraries into our environment
 # For audio processing
 import librosa
 import scipy
+import pandas as pd
+
+
+print(librosa.__version__)
+print(scipy.__version__)
+
+# For playing audio
+import IPython.display as ipd
+
+# For array processing
+import numpy as np
+
+# For visualization 
+import matplotlib.pyplot as plt
+
+pd.set_option('display.max_colwidth', 200)
+
+
+import zipfile
+import os
+
+# Specify the path to the zip file
+zip_file_path = 'data/audio.zip'
+
+# Specify the directory to extract to
+extract_to_dir = 'data/unzipped_contents'
+
+# Create a directory to extract to if it doesn't exist
+os.makedirs(extract_to_dir, exist_ok=True)
+
+# Open the zip file
+with zipfile.ZipFile(zip_file_path, 'r') as zip_ref:
+    # Extract all the contents into the directory
+    zip_ref.extractall(extract_to_dir)
+    
+    # List the contents of the extracted folder
+    print(f"Contents of the zip file '{zip_file_path}':")
+    for file_name in zip_ref.namelist():
+        print(file_name)
 
