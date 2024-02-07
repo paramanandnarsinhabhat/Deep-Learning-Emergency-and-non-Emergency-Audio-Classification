@@ -115,3 +115,8 @@ def prepare_data(audio_data, num_of_samples=32000, sr=16000):
     
   return data
 
+# prepare audio chunks
+emergency = prepare_data(emergency)
+non_emergency = prepare_data(non_emergency)
+
+print("No. of Chunks of Emergency and Non Emergency:",len(emergency),len(non_emergency))
