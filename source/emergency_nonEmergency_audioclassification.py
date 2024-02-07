@@ -131,9 +131,27 @@ plt.plot(np.linspace(0, 2, num=32000),emergency[103])
 plt.title('Emergency')
 plt.xlabel('Time')
 plt.ylabel('Amplitude')
+plt.show()
+
 
 plt.figure(figsize=(14,4))
 plt.plot(np.linspace(0, 2, num=32000),non_emergency[102])
 plt.title('Non Emergency')
 plt.xlabel('Time')
 plt.ylabel('Amplitude')
+
+plt.show()
+
+#__Combine Emergecy and Non Emergency chunks__
+audio = np.concatenate([emergency,non_emergency])
+
+# assign labels 
+labels1 = np.zeros(len(emergency))
+labels2 = np.ones(len(non_emergency))
+
+# concatenate labels
+labels = np.concatenate([labels1,labels2])
+
+print(audio.shape)
+
+
