@@ -363,3 +363,44 @@ model_2.summary()
 
 
 #Train the model
+history=model_2.fit(x_tr_features, y_tr, 
+                    epochs=10, callbacks=[mc], batch_size=32, 
+                    validation_data=(x_val_features,y_val))
+
+model_2.load_weights('best_model.hdf5')
+
+# summarize history for loss
+plt.plot(history.history['loss'])
+plt.plot(history.history['val_loss'])
+plt.title('model loss')
+plt.ylabel('loss')
+plt.xlabel('epoch')
+plt.legend(['train', 'validation'], loc='upper left')
+plt.show()
+
+_,acc = model_2.evaluate(x_val_features,y_val)
+print("Accuracy:",acc)
+
+model_3, mc = conv_model(x_tr_features)
+
+model_3.summary()
+
+history=model_3.fit(x_tr_features, y_tr, 
+                    epochs=10, callbacks=[mc], batch_size=32, 
+                    validation_data=(x_val_features,y_val))
+
+# summarize history for loss
+plt.plot(history.history['loss'])
+plt.plot(history.history['val_loss'])
+plt.title('model loss')
+plt.ylabel('loss')
+plt.xlabel('epoch')
+plt.legend(['train', 'validation'], loc='upper left')
+plt.show()
+
+model_3.load_weights('best_model.hdf5')
+
+# model's performance on the validation set
+_,acc = model_3.evaluate(x_val_features,y_val)
+print("Accuracy:",acc)
+
