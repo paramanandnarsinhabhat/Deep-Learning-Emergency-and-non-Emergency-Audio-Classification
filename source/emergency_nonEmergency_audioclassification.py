@@ -73,3 +73,16 @@ with zipfile.ZipFile(zip_file_path, 'r') as zip_ref:
     for file_name in zip_ref.namelist():
         print(file_name)
 
+# import emergency vehicle data
+path='audio/emergency.wav'
+emergency,sample_rate = librosa.load(path, sr = 16000)
+
+
+# import non-emergency vehicle data
+path='audio/non emergency.wav'
+non_emergency,sample_rate = librosa.load(path, sr =16000)
+
+'''
+We have used the sampling rate (sr) of 16000 to read the above audio data. An audio wave of 2 seconds with a sampling rate of 16,000 will have 32,000 samples.
+'''
+
